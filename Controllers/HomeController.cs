@@ -16,7 +16,6 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-
         return View();
     }
 
@@ -31,6 +30,7 @@ public class HomeController : Controller
             var user = await _context.Accounts.FirstOrDefaultAsync(q => q.Email == email);
             if (user != null)
             {
+                TempData["Email"] = email;
                 if (user.Password == password)
                 {
                     if (loginForm.RememberMe)
@@ -54,6 +54,13 @@ public class HomeController : Controller
     {
         return View();
     }
+
+    // [HttpGet]
+    // [ValidateAntiForgeryToken]
+    // public IActionResult ForgotPassword(string email)
+    // {
+    //     return View();
+    // }
 
     public IActionResult HomePage()
     {

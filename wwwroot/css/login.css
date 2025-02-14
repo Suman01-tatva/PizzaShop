@@ -58,7 +58,7 @@ a {
     display: none;
   }
   .login-form {
-    background-image: url(../Assets/dominos_bg_blur.JPEG);
+    background-image: url("../images/dominos_bg_blur.JPEG");
     background-repeat: no-repeat;
     background-size: cover;
     color: white;

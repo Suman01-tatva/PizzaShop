@@ -33,8 +33,9 @@
                 <input asp-for="RememberMe" type="checkbox" class="form-check-input" id="exampleCheck1" />
                 <label asp-for="RememberMe" class="form-check-label" for="exampleCheck1">Remember me</label>
             </div>
-            <a asp-action="ForgotPassword">Forgot Password</a>
-            @* <a href="/Pages/forgot-password.html">Forgot Password?</a> *@
+            @* <a asp-action="ForgotPassword?email=@email" asp-controller="Home">Forgot Password</a> *@
+
+            <a id="ForgotPassword">Forgot Password</a>
         </div>
         <span asp-validation-for="RememberMe" class="text-danger mb-3"></span>
         <button type="submit" value="Login" class="fill-btn border-0 col-12 p-1">
@@ -50,63 +51,17 @@
     @{
         <partial name="_ValidationScriptsPartial" />
     }
+    <script>
+        $("#ForgotPassword").click(function () {
+            let email = $("#email").val();
+            console.log(email)
+            if (email) {
+                window.location.href = "/Home/ForgotPassword?email=" + email;
+            }
+            else {
+                alert("Please Enter Email")
+                window.location.href = "/";
+            }
+        })
+    </script>
 }
-
-
-@* <script>
-    $(document).ready(function () {
-
-        $("#loginForm").submit(function (e) {
-            e.preventDefault(); // Prevent form submission
-
-            $(".text-danger").text(""); // Clear previous errors
-            var isValid = true;
-
-            var email = $("#email").val().trim();
-            var password = $("#password").val().trim();
-
-            var emailPattern = /^[a-zA-Z0-9._%+-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-            var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@@$!%*?&])[A-Za-z\d@@$!%*?&]{8,}$/;
-
-            if (email === "") {
-                $("#emailError").text("Email is required");
-                isValid = false;
-            } else if (!emailPattern.test(email)) {
-                $("#emailError").text("Please enter a valid email address");
-                isValid = false;
-            }
-
-            if (password === "") {
-                $("#passwordError").text("Password is required");
-                isValid = false;
-            } else if (!passwordPattern.test(password)) {
-                $("#passwordError").text("Password must be at least 8 characters long, contain 1 uppercase, 1 lowercase, and 1 special character");
-                isValid = false;
-            }
-
-            if (isValid) {
-                $.ajax({
-                    url: "/home",
-                    type: "POST",
-                    contentType: "application/json",
-                    data: JSON.stringify({ Email: email, Password: password }),
-                    success: function (response) {
-                        if (response.success) {
-                            alert(response.message);
-                        } else {
-                            $("#genError").text(response.message);
-                        }
-                    },
-                    error: function () {
-                        alert("Please enter valid data.");
-                    }
-                });
-            }
-        });
-
-        // Remove validation errors on input
-        $("#email, #password").on("input", function () {
-            $(this).next(".text-danger").text("");
-        });
-    });
-</script> *@

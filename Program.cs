@@ -8,6 +8,7 @@ var conn = builder.Configuration.GetConnectionString("pizzashopDbConn");
 builder.Services.AddDbContext<PizzashopContext>(q => q.UseNpgsql(conn));
 builder.Services.AddControllersWithViews();
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
