@@ -1,0 +1,67 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+.main-div {
+  height: 100vh;
+}
+
+.login-form {
+  background-color: #d2eff6;
+}
+
+.pizza-img {
+  background-size: cover;
+  background-repeat: no-repeat;
+  object-fit: cover;
+}
+
+.login-icon {
+  height: 25px;
+  width: 25px;
+  background: transparent;
+  margin-left: -34px;
+}
+
+.pizza-logo {
+  height: 50px;
+  width: 60px;
+}
+
+.brand-name {
+  color: #4e7e9a;
+}
+
+a {
+  text-decoration: none;
+}
+
+.fill-btn {
+  background-color: #006098;
+  color: white;
+  border-radius: 3px;
+}
+
+.validation-summary-errors ul li {
+  list-style-type: none;
+  color: red;
+}
+
+.validation-summary-errors ul {
+  padding: 0;
+}
+
+@media (max-width: 1024px) {
+  .img-section {
+    display: none;
+  }
+  .login-form {
+    background-image: url(../Assets/dominos_bg_blur.JPEG);
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: white;
+    width: 100%;
+  }
+}

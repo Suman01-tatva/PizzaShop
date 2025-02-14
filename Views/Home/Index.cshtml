@@ -1,8 +1,112 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Login Page";
+}
+@model LoginForm;
+
+<div class="m-auto col-md-8">
+    <div class="d-flex flex-row justify-content-center align-item-center mb-5 fs-3 mt-5">
+        <img src="images/pizzashop_logo.png" alt="pizashop-logo" class="img-fliud pizza-logo" />
+        <div class="brand-name mt-1"><b>PIZZASHOP</b></div>
+    </div>
+    <h4>Welcome,</h4>
+    <form asp-action="Index" asp-controller="Home" class="mb-5 needs-validation mt-4" id="loginForm" novalidate>
+        <div class="d-flex mb-3">
+            <input asp-for="Email" type="email" class="form-control" id="email" aria-describedby="emailHelp"
+                placeholder="Email*" />
+            <div class="position-">
+                <img src="images/user-icon.png" alt="user-icon" class="login-icon position-absolute mt-1" />
+            </div>
+        </div>
+        <span asp-validation-for="Email" class="text-danger mb-3"></span>
+
+        <div class="d-flex mb-3 mt-3">
+            <input asp-for="Password" type="password" class="form-control input-psw" id="password"
+                placeholder="Password*" title="Please enter valid password" is-valid />
+            <span>
+                <img src="images/eye-open.png" alt="user-icon" class="login-icon mt-1"
+                    onclick="togglePassword(password,this)" />
+            </span>
+        </div>
+        <span asp-validation-for="Password" class="text-danger mb-3"></span>
+        <div class="d-flex justify-content-between align-items-center my-4">
+            <div>
+                <input asp-for="RememberMe" type="checkbox" class="form-check-input" id="exampleCheck1" />
+                <label asp-for="RememberMe" class="form-check-label" for="exampleCheck1">Remember me</label>
+            </div>
+            <a asp-action="ForgotPassword">Forgot Password</a>
+            @* <a href="/Pages/forgot-password.html">Forgot Password?</a> *@
+        </div>
+        <span asp-validation-for="RememberMe" class="text-danger mb-3"></span>
+        <button type="submit" value="Login" class="fill-btn border-0 col-12 p-1">
+            Login
+        </button>
+        <P class="">
+            @Html.ValidationSummary()
+        </P>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+
+@* <script>
+    $(document).ready(function () {
+
+        $("#loginForm").submit(function (e) {
+            e.preventDefault(); // Prevent form submission
+
+            $(".text-danger").text(""); // Clear previous errors
+            var isValid = true;
+
+            var email = $("#email").val().trim();
+            var password = $("#password").val().trim();
+
+            var emailPattern = /^[a-zA-Z0-9._%+-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@@$!%*?&])[A-Za-z\d@@$!%*?&]{8,}$/;
+
+            if (email === "") {
+                $("#emailError").text("Email is required");
+                isValid = false;
+            } else if (!emailPattern.test(email)) {
+                $("#emailError").text("Please enter a valid email address");
+                isValid = false;
+            }
+
+            if (password === "") {
+                $("#passwordError").text("Password is required");
+                isValid = false;
+            } else if (!passwordPattern.test(password)) {
+                $("#passwordError").text("Password must be at least 8 characters long, contain 1 uppercase, 1 lowercase, and 1 special character");
+                isValid = false;
+            }
+
+            if (isValid) {
+                $.ajax({
+                    url: "/home",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify({ Email: email, Password: password }),
+                    success: function (response) {
+                        if (response.success) {
+                            alert(response.message);
+                        } else {
+                            $("#genError").text(response.message);
+                        }
+                    },
+                    error: function () {
+                        alert("Please enter valid data.");
+                    }
+                });
+            }
+        });
+
+        // Remove validation errors on input
+        $("#email, #password").on("input", function () {
+            $(this).next(".text-danger").text("");
+        });
+    });
+</script> *@
