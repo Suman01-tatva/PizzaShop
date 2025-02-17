@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PizzaShop.Models;
+using PizzaShop.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,7 @@ var conn = builder.Configuration.GetConnectionString("pizzashopDbConn");
 builder.Services.AddDbContext<PizzashopContext>(q => q.UseNpgsql(conn));
 builder.Services.AddControllersWithViews();
 
+// builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 var app = builder.Build();
 
