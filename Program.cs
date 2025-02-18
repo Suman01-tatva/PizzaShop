@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 using PizzaShop.Models;
 using PizzaShop.Services;
@@ -10,6 +11,9 @@ builder.Services.AddDbContext<PizzashopContext>(q => q.UseNpgsql(conn));
 builder.Services.AddControllersWithViews();
 
 // builder.Services.AddTransient<IEmailSender, EmailSender>();
+builder.Services.AddDataProtection().SetApplicationName("PizzaShop");
+builder.Services.AddScoped<EncryptionService>();
+builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 

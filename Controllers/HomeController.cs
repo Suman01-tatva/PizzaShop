@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PizzaShop.Models;
+using PizzaShop.Services;
 
 namespace PizzaShop.Controllers;
 
@@ -15,9 +16,13 @@ public class HomeController : Controller
     private readonly PizzashopContext _context;
 
     // private readonly IEmailSender _emailSender;
-    public HomeController(PizzashopContext context)
+
+    private readonly EncryptionService _encryptionService;
+    public HomeController(PizzashopContext context, EncryptionService encryption)
     {
         _context = context;
+        // _emailSender = emailSender;
+        _encryptionService = encryption;
     }
 
     public IActionResult Index()
@@ -86,7 +91,7 @@ public class HomeController : Controller
     {
         if (ModelState.IsValid)
         {
-            var user = _context.Accounts.FirstOrDefaultAsync(u => u.Email == model.Email);
+            var user = await _context.Accounts.FirstOrDefaultAsync(u => u.Email == model.Email);
 
             if (user != null)
             {
@@ -99,6 +104,7 @@ public class HomeController : Controller
 
     public void SendMail(string ToEmail)
     {
+        TempData["Email"] = ToEmail;
         string SenderMail = "test.dotnet@etatvasoft.com";
         string SenderPassword = "P}N^{z-]7Ilp";
         string Host = "mail.etatvasoft.com";
@@ -142,9 +148,29 @@ public class HomeController : Controller
     {
         if (ModelState.IsValid)
         {
-            // var user = await _context.Accounts.FindByEmailAsync(model.Email);
+            string? email = TempData["Email"]?.ToString();
+            var user = await _context.Accounts.FirstOrDefaultAsync(u => u.Email == email);
+
+            if (user != null)
+            {
+                if (model.NewPassword != null && model.ConfirmNewPassword != null)
+                {
+                    if (model.NewPassword == model.ConfirmNewPassword)
+                    {
+                        // var encryptedPsw = _encryptionService.EncryptData(model.NewPassword);
+                        user.Password = model.NewPassword;
+                        _context.Update(user);
+                        _context.SaveChanges();
+                    }
+                    return RedirectToAction("HomePage", "Home");
+                }
+            }
+            else
+            {
+                return View("ForgotPassword");
+            }
         }
-        return View();
+        return View(model);
     }
 
 

@@ -58,6 +58,10 @@ a {
   border-color: black;
 }
 
+#ForgotPassword {
+  cursor: pointer;
+}
+
 @media (max-width: 1024px) {
   .img-section {
     display: none;
