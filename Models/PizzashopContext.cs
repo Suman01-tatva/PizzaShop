@@ -6,10 +6,6 @@ namespace PizzaShop.Models;
 
 public partial class PizzashopContext : DbContext
 {
-    public PizzashopContext()
-    {
-    }
-
     public PizzashopContext(DbContextOptions<PizzashopContext> options)
         : base(options)
     {
@@ -69,10 +65,6 @@ public partial class PizzashopContext : DbContext
 
     public virtual DbSet<WaitingToken> WaitingTokens { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseNpgsql("Host=localhost; Database=pizzashop;Username=postgres; password=Tatva@123");
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Account>(entity =>
@@ -82,7 +74,9 @@ public partial class PizzashopContext : DbContext
             entity.ToTable("accounts");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.CreatedAt).HasColumnName("created_at");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("now()")
+                .HasColumnName("created_at");
             entity.Property(e => e.CreatedBy).HasColumnName("created_by");
             entity.Property(e => e.Email)
                 .HasMaxLength(100)
@@ -96,7 +90,7 @@ public partial class PizzashopContext : DbContext
             entity.Property(e => e.ModifiedAt).HasColumnName("modified_at");
             entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
             entity.Property(e => e.Password)
-                .HasMaxLength(20)
+                .HasColumnType("character varying")
                 .HasColumnName("password");
             entity.Property(e => e.RoleId).HasColumnName("role_id");
 
@@ -111,7 +105,7 @@ public partial class PizzashopContext : DbContext
             entity.HasOne(d => d.Role).WithMany(p => p.Accounts)
                 .HasForeignKey(d => d.RoleId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("role_id");
+                .HasConstraintName("accounts_role_id_fkey");
         });
 
         modelBuilder.Entity<City>(entity =>
@@ -120,9 +114,7 @@ public partial class PizzashopContext : DbContext
 
             entity.ToTable("cities");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Name)
                 .HasMaxLength(100)
                 .HasColumnName("name");
@@ -140,9 +132,7 @@ public partial class PizzashopContext : DbContext
 
             entity.ToTable("countries");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Name)
                 .HasMaxLength(100)
                 .HasColumnName("name");
@@ -154,9 +144,7 @@ public partial class PizzashopContext : DbContext
 
             entity.ToTable("customers");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CreatedAt).HasColumnName("created_at");
             entity.Property(e => e.CreatedBy).HasColumnName("created_by");
             entity.Property(e => e.Email)
@@ -185,9 +173,7 @@ public partial class PizzashopContext : DbContext
 
             entity.ToTable("feedbacks");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Ambience).HasColumnName("ambience");
             entity.Property(e => e.AvgRating).HasColumnName("avg_rating");
             entity.Property(e => e.Comments)
@@ -222,9 +208,7 @@ public partial class PizzashopContext : DbContext
 
             entity.ToTable("invoices");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CreatedAt).HasColumnName("created_at");
             entity.Property(e => e.CreatedBy).HasColumnName("created_by");
             entity.Property(e => e.ModifiedAt).HasColumnName("modified_at");
@@ -265,9 +249,7 @@ public partial class PizzashopContext : DbContext
 
             entity.ToTable("mapping_menu_items_with_modifiers");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CreatedAt).HasColumnName("created_at");
             entity.Property(e => e.CreatedBy).HasColumnName("created_by");
             entity.Property(e => e.IsDeleted)
@@ -306,9 +288,7 @@ public partial class PizzashopContext : DbContext
 
             entity.ToTable("menu_categories");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CreatedAt).HasColumnName("created_at");
             entity.Property(e => e.CreatedBy).HasColumnName("created_by");
             entity.Property(e => e.Description)
@@ -339,9 +319,7 @@ public partial class PizzashopContext : DbContext
 
             entity.ToTable("menu_items");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CategoryId).HasColumnName("category_id");
             entity.Property(e => e.CreatedAt).HasColumnName("created_at");
             entity.Property(e => e.CreatedBy).HasColumnName("created_by");
@@ -407,9 +385,7 @@ public partial class PizzashopContext : DbContext
 
             entity.ToTable("modifiers");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CreatedAt).HasColumnName("created_at");
             entity.Property(e => e.CreatedBy).HasColumnName("created_by");
             entity.Property(e => e.Description)
@@ -456,9 +432,7 @@ public partial class PizzashopContext : DbContext
 
             entity.ToTable("modifier_groups");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CreatedAt).HasColumnName("created_at");
             entity.Property(e => e.CreatedBy).HasColumnName("created_by");
             entity.Property(e => e.Description)
@@ -489,9 +463,7 @@ public partial class PizzashopContext : DbContext
 
             entity.ToTable("orders");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CreatedAt).HasColumnName("created_at");
             entity.Property(e => e.CreatedBy).HasColumnName("created_by");
             entity.Property(e => e.CustomerId).HasColumnName("customer_id");
@@ -540,9 +512,7 @@ public partial class PizzashopContext : DbContext
 
             entity.ToTable("order_tax_mapping");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CreatedAt).HasColumnName("created_at");
             entity.Property(e => e.CreatedBy).HasColumnName("created_by");
             entity.Property(e => e.IsDeleted)
@@ -582,9 +552,7 @@ public partial class PizzashopContext : DbContext
 
             entity.ToTable("ordered_items");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Amount).HasColumnName("amount");
             entity.Property(e => e.CreatedAt).HasColumnName("created_at");
             entity.Property(e => e.CreatedBy).HasColumnName("created_by");
@@ -633,9 +601,7 @@ public partial class PizzashopContext : DbContext
 
             entity.ToTable("ordered_item_modifier_mapping");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CreatedAt).HasColumnName("created_at");
             entity.Property(e => e.CreatedBy).HasColumnName("created_by");
             entity.Property(e => e.IsDeleted)
@@ -679,9 +645,7 @@ public partial class PizzashopContext : DbContext
 
             entity.ToTable("payments");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Amount).HasColumnName("amount");
             entity.Property(e => e.CreatedAt).HasColumnName("created_at");
             entity.Property(e => e.CreatedBy).HasColumnName("created_by");
@@ -712,9 +676,7 @@ public partial class PizzashopContext : DbContext
 
             entity.ToTable("permissions");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CreatedAt).HasColumnName("created_at");
             entity.Property(e => e.CreatedBy).HasColumnName("created_by");
             entity.Property(e => e.ModifiedAt).HasColumnName("modified_at");
@@ -735,15 +697,13 @@ public partial class PizzashopContext : DbContext
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("roles_pkey");
+            entity.HasKey(e => e.Id).HasName("role_id");
 
             entity.ToTable("roles");
 
-            entity.HasIndex(e => e.Name, "roles_name_key").IsUnique();
-
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Name)
-                .HasMaxLength(50)
+                .HasMaxLength(100)
                 .HasColumnName("name");
         });
 
@@ -753,9 +713,7 @@ public partial class PizzashopContext : DbContext
 
             entity.ToTable("role_permissions");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CanDelete)
                 .HasDefaultValueSql("false")
                 .HasColumnName("can_delete");
@@ -781,10 +739,15 @@ public partial class PizzashopContext : DbContext
                 .HasForeignKey(d => d.ModifiedBy)
                 .HasConstraintName("modified_by");
 
+            entity.HasOne(d => d.Permission).WithMany(p => p.RolePermissions)
+                .HasForeignKey(d => d.PermissionId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("role_permissions_permission_id_fkey");
+
             entity.HasOne(d => d.Role).WithMany(p => p.RolePermissions)
                 .HasForeignKey(d => d.RoleId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("role_id");
+                .HasConstraintName("role_permissions_role_id_fkey");
         });
 
         modelBuilder.Entity<Section>(entity =>
@@ -793,9 +756,7 @@ public partial class PizzashopContext : DbContext
 
             entity.ToTable("sections");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CreatedAt).HasColumnName("created_at");
             entity.Property(e => e.CreatedBy).HasColumnName("created_by");
             entity.Property(e => e.Description)
@@ -826,9 +787,7 @@ public partial class PizzashopContext : DbContext
 
             entity.ToTable("states");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CountryId).HasColumnName("country_id");
             entity.Property(e => e.Name)
                 .HasMaxLength(100)
@@ -837,7 +796,7 @@ public partial class PizzashopContext : DbContext
             entity.HasOne(d => d.Country).WithMany(p => p.States)
                 .HasForeignKey(d => d.CountryId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("country_id");
+                .HasConstraintName("states_country_id_fkey");
         });
 
         modelBuilder.Entity<Table>(entity =>
@@ -846,9 +805,7 @@ public partial class PizzashopContext : DbContext
 
             entity.ToTable("tables");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Capacity).HasColumnName("capacity");
             entity.Property(e => e.CreatedAt).HasColumnName("created_at");
             entity.Property(e => e.CreatedBy).HasColumnName("created_by");
@@ -886,9 +843,7 @@ public partial class PizzashopContext : DbContext
 
             entity.ToTable("table_order_mapping");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CreatedAt).HasColumnName("created_at");
             entity.Property(e => e.CreatedBy).HasColumnName("created_by");
             entity.Property(e => e.IsDeleted)
@@ -926,9 +881,7 @@ public partial class PizzashopContext : DbContext
 
             entity.ToTable("taxes_and_fees");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CreatedAt).HasColumnName("created_at");
             entity.Property(e => e.CreatedBy).HasColumnName("created_by");
             entity.Property(e => e.FlatAmount)
@@ -970,13 +923,11 @@ public partial class PizzashopContext : DbContext
 
         modelBuilder.Entity<Unit>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("units_pkey");
+            entity.HasKey(e => e.Id).HasName("unitsp_key");
 
             entity.ToTable("units");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.IsDeleted)
                 .HasDefaultValueSql("false")
                 .HasColumnName("is_deleted");
@@ -996,15 +947,15 @@ public partial class PizzashopContext : DbContext
 
             entity.HasIndex(e => e.Email, "unique").IsUnique();
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Address)
                 .HasMaxLength(500)
                 .HasColumnName("address");
-            entity.Property(e => e.CityId).HasColumnName("city_Id");
-            entity.Property(e => e.CountryId).HasColumnName("country_Id");
-            entity.Property(e => e.CreatedAt).HasColumnName("created_at");
+            entity.Property(e => e.CityId).HasColumnName("city_id");
+            entity.Property(e => e.CountryId).HasColumnName("country_id");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("now()")
+                .HasColumnName("created_at");
             entity.Property(e => e.CreatedBy).HasColumnName("created_by");
             entity.Property(e => e.Email)
                 .HasMaxLength(100)
@@ -1024,11 +975,11 @@ public partial class PizzashopContext : DbContext
             entity.Property(e => e.ModifiedAt).HasColumnName("modified_at");
             entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
             entity.Property(e => e.Phone).HasColumnName("phone");
-            entity.Property(e => e.ProfileImg)
+            entity.Property(e => e.ProfileImage)
                 .HasColumnType("character varying")
-                .HasColumnName("profile_img");
+                .HasColumnName("profile_image");
             entity.Property(e => e.RoleId).HasColumnName("role_id");
-            entity.Property(e => e.StateId).HasColumnName("state_Id");
+            entity.Property(e => e.StateId).HasColumnName("state_id");
             entity.Property(e => e.Username)
                 .HasMaxLength(50)
                 .HasColumnName("username");
@@ -1036,19 +987,31 @@ public partial class PizzashopContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("zipcode");
 
+            entity.HasOne(d => d.City).WithMany(p => p.Users)
+                .HasForeignKey(d => d.CityId)
+                .HasConstraintName("city_id");
+
+            entity.HasOne(d => d.Country).WithMany(p => p.Users)
+                .HasForeignKey(d => d.CountryId)
+                .HasConstraintName("users_country_id_fkey");
+
             entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.InverseCreatedByNavigation)
                 .HasForeignKey(d => d.CreatedBy)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("users_created_by_fkey");
+                .HasConstraintName("created_by");
 
             entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.InverseModifiedByNavigation)
                 .HasForeignKey(d => d.ModifiedBy)
-                .HasConstraintName("users_modified_by_fkey");
+                .HasConstraintName("modified_by");
 
             entity.HasOne(d => d.Role).WithMany(p => p.Users)
                 .HasForeignKey(d => d.RoleId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("role_id");
+                .HasConstraintName("users_role_id_fkey");
+
+            entity.HasOne(d => d.State).WithMany(p => p.Users)
+                .HasForeignKey(d => d.StateId)
+                .HasConstraintName("state_id");
         });
 
         modelBuilder.Entity<WaitingToken>(entity =>
@@ -1057,9 +1020,7 @@ public partial class PizzashopContext : DbContext
 
             entity.ToTable("waiting_tokens");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CreatedAt).HasColumnName("created_at");
             entity.Property(e => e.CreatedBy).HasColumnName("created_by");
             entity.Property(e => e.CustomerId).HasColumnName("customer_id");

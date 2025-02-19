@@ -49,5 +49,7 @@ public partial class Order
 
     public virtual ICollection<OrderedItem> OrderedItems { get; set; } = new List<OrderedItem>();
 
+    public virtual ICollection<RolePermission> RolePermissions { get; set; } = new List<RolePermission>();
+
     public virtual ICollection<TableOrderMapping> TableOrderMappings { get; set; } = new List<TableOrderMapping>();
 }

@@ -10,4 +10,6 @@ public partial class Country
     public string? Name { get; set; }
 
     public virtual ICollection<State> States { get; set; } = new List<State>();
+
+    public virtual ICollection<User> Users { get; set; } = new List<User>();
 }

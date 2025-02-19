@@ -19,7 +19,7 @@ public partial class User
 
     public long Phone { get; set; }
 
-    public string? ProfileImg { get; set; }
+    public string? ProfileImage { get; set; }
 
     public int? CountryId { get; set; }
 
@@ -46,6 +46,10 @@ public partial class User
     public virtual ICollection<Account> AccountCreatedByNavigations { get; set; } = new List<Account>();
 
     public virtual ICollection<Account> AccountModifiedByNavigations { get; set; } = new List<Account>();
+
+    public virtual City? City { get; set; }
+
+    public virtual Country? Country { get; set; }
 
     public virtual User CreatedByNavigation { get; set; } = null!;
 
@@ -120,6 +124,8 @@ public partial class User
     public virtual ICollection<Section> SectionCreatedByNavigations { get; set; } = new List<Section>();
 
     public virtual ICollection<Section> SectionModifiedByNavigations { get; set; } = new List<Section>();
+
+    public virtual State? State { get; set; }
 
     public virtual ICollection<Table> TableCreatedByNavigations { get; set; } = new List<Table>();
 

@@ -29,5 +29,7 @@ public partial class RolePermission
 
     public virtual User? ModifiedByNavigation { get; set; }
 
-    public virtual Role Role { get; set; } = null!;
+    public virtual Permission Permission { get; set; } = null!;
+
+    public virtual Order Role { get; set; } = null!;
 }
