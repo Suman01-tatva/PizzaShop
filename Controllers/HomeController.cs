@@ -2,12 +2,17 @@
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
+using AuthenticationDemo.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PizzaShop.Models;
 using PizzaShop.Services;
+using PizzaShop.Services.Interfaces;
+using PizzaShop.Utils;
 
 namespace PizzaShop.Controllers;
 
@@ -15,14 +20,17 @@ public class HomeController : Controller
 {
     private readonly PizzashopContext _context;
 
+    private readonly IAuthService _authService;
+    private readonly IJwtService _jwtService;
+
     // private readonly IEmailSender _emailSender;
 
-    private readonly EncryptionService _encryptionService;
-    public HomeController(PizzashopContext context, EncryptionService encryption)
+    public HomeController(PizzashopContext context, IAuthService authService, IJwtService jwtService)
     {
         _context = context;
+        _authService = authService;
+        _jwtService = jwtService;
         // _emailSender = emailSender;
-        _encryptionService = encryption;
     }
 
     public IActionResult Index()
@@ -31,34 +39,54 @@ public class HomeController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Index(LoginForm loginForm)
+    public async Task<IActionResult> Index(LoginForm model)
     {
         if (ModelState.IsValid)
         {
-            var email = loginForm.Email;
-            var password = loginForm.Password;
 
-            var user = await _context.Accounts.FirstOrDefaultAsync(q => q.Email == email);
-            if (user != null)
+            //Authenticate User
+            var user = await _authService.AuthenticateUser(model.Email, model.Password);
+            if (user == null)
             {
-                TempData["Email"] = email;
-                if (user.Password == password)
-                {
-                    if (loginForm.RememberMe)
-                    {
-                        Response.Cookies.Append("email", email);
-                        Response.Cookies.Append("password", password);
-                    }
-                    return RedirectToAction("HomePage");
-                }
-            }
-            else
-            {
+                // ViewBag.ErrorMessage = "Invalid email or password.";
+                // return View();
                 ModelState.AddModelError("", "Please enter valid credentials");
                 return View("Index");
             }
+
+            // Generate JWT Token
+            var token = _jwtService.GenerateJwtToken(user.Email, user.Role.Name);  // Add user.Id
+
+            // Store token in cookie
+            CookieUtils.SaveJWTToken(Response, token);
+
+            // Save User Data to Cookie for Remember Me functionality.
+            if (model.RememberMe)
+            {
+                // CookieUtils.SaveUserData(Response, user);
+                Response.Cookies.Append(token, token);
+            }
+            TempData["Email"] = user.Email;
+            // if (user.RoleId == 1)
+            // {
+            //     return RedirectToLocal("AdminDashboard");
+            // }
+            // else
+            // {
+            //     return RedirectToLocal("UserDashboard");
+            // }
+            return RedirectToAction("AdminDashboard");
         }
         return View("Index");
+    }
+
+    private IActionResult RedirectToLocal(string? returnUrl)
+    {
+        if (Url.IsLocalUrl(returnUrl))
+        {
+            return Redirect(returnUrl); // Return the user to their original destination
+        }
+        return RedirectToAction("Index"); // Fallback to the default route
     }
 
     [HttpGet]
@@ -136,7 +164,6 @@ public class HomeController : Controller
     }
 
     [AllowAnonymous]
-
     [HttpGet]
     public IActionResult ResetPassword()
     {
@@ -157,8 +184,8 @@ public class HomeController : Controller
                 {
                     if (model.NewPassword == model.ConfirmNewPassword)
                     {
-                        // var encryptedPsw = _encryptionService.EncryptData(model.NewPassword);
-                        user.Password = model.NewPassword;
+
+                        user.Password = PasswordUtills.HashPassword(model.NewPassword);
                         _context.Update(user);
                         _context.SaveChanges();
                     }
@@ -173,12 +200,17 @@ public class HomeController : Controller
         return View(model);
     }
 
-
-    public IActionResult HomePage()
+    // [Authorize(Roles = "1")]
+    public IActionResult AdminDashboard()
     {
         return View();
     }
 
+    // [Authorize]
+    public IActionResult UserDashboard()
+    {
+        return View();
+    }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
