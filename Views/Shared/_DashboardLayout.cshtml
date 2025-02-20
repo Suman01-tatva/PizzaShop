@@ -1,0 +1,129 @@
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PizzaShop</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/adminDashboard.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/login.css" asp-append-version=" true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="icon" type="image/x-icon" href="~/images/pizzashop_logo.png" />
+</head>
+
+<body>
+    <main class="container-fluid">
+        <div class="row">
+            @* sidebar *@
+            <div class="offcanvas-lg offcanvas-start col-md-3 bg-light col-lg-2 sidebar" id="sidebar">
+                <div class="d-flex flex-row justify-content-center align-item-center mt-2 fs-3">
+                    <img src="~/images/pizzashop_logo.png" alt="pizashop-logo" class="img-fliud pizza-logo" />
+                    <div class="brand-name fs-5 mt-2"><b>PIZZASHOP</b></div>
+                    <button class="btn btn-close close-btn" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#sidebar" aria-controls="offcanvasWithBothOptions"></button>
+                </div>
+                <ul class="nav d-flex justify-content-between align-items-left flex-column mt-4">
+                    <a href="">
+                        <li class="nav-item sidebar-active cursor-pointer">
+                            <i class="fa-solid fa-table-cells-large me-2"></i>
+                            Dashboard
+                        </li>
+                    </a>
+                    <a href="./list-user.html">
+                        <li class="nav-item">
+                            <i class="fa-solid fa-users me-2"></i> Users
+                        </li>
+                    </a>
+                    <a href="./permissions.html">
+                        <li class="nav-item">
+                            <i class="fa-solid fa-monument me-2"></i>Role and Permission
+                        </li>
+                    </a>
+                    <a href="./permissions.html">
+                        <li class="nav-item">
+                            <i class="fa-solid fa-square me-2"></i>Menu
+                        </li>
+                    </a>
+                    <a href="">
+                        <li class="nav-item">
+                            <i class="fa-solid fa-money-check-dollar me-2"></i> Table and
+                            Section
+                        </li>
+                    </a>
+                    <a href="">
+                        <li class="nav-item">
+                            <i class="fa-solid fa-cart-plus me-2"></i> Taxes And Fees
+                        </li>
+                    </a>
+                    <a href="">
+                        <li class="nav-item">
+                            <i class="fa-solid fa-users-rectangle me-2"></i> Orders
+                        </li>
+                    </a>
+                    <a href="">
+                        <li class="nav-item">
+                            <i class="fa-solid fa-users-rectangle me-2"></i> Customers
+                        </li>
+                    </a>
+                </ul>
+            </div>
+            <div class="main-content col-md-9 col-lg-10 mx-3 mt-5">
+                @* navbar *@
+                <nav class="navbar navbar-expand-lg d-flex justify-content-between align-item-center fixed-top py-0">
+                    <div class="d-flex my-0">
+                        <div class="d-flex flex-row justify-content-center align-item-center mt-2 fs-3">
+                            <img src="~/images/menu-bar.svg" alt="toggle-btn" class="mx-2" id="menu-icon"
+                                data-bs-toggle="offcanvas" data-bs-target="#sidebar"
+                                aria-controls="offcanvasWithBothOptions" />
+                            <img src="~/images/pizzashop_logo.png" alt="pizashop-logo" class="img-fliud pizza-logo" />
+                            <div class="brand-name-nav fs-5 mt-2"><b>PIZZASHOP</b></div>
+                        </div>
+                    </div>
+                    <div class="mx-5">
+                        <a class="nav-link profile" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <img src="~/images/Default_pfp.svg.png" alt="avatar" width="44" height="44">
+                        </a>
+                        <ul class="dropdown-menu end-0">
+                            <li><a class="dropdown-item" href="#">
+                                    <img src="~/images/icons/customer.svg" alt="User-icon" class="me-3" />
+                                    @TempData["Email"]
+                                </a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" asp-action="Profile" asp-controller="User"><i
+                                        class="fa fa-user-circle me-2" aria-hidden="true"></i>My Profile</a></li>
+                            <li><a class="dropdown-item" asp-action="ChangePassword" asp-controller="User">
+                                    <i class="fa-solid fa-rotate-right me-2"></i>Change Password</a>
+                            </li>
+                            <li><a class="dropdown-item" href="@Url.Action("Logout", "Home")"><i
+                                        class="fa fa-sign-out me-2" aria-hidden="true"></i>Logout</a></li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="main-content container-fluid mt-5">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/login.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

@@ -59,12 +59,12 @@ public class HomeController : Controller
 
             // Store token in cookie
             CookieUtils.SaveJWTToken(Response, token);
-
+            Response.Cookies.Append("email", user.Email);
             // Save User Data to Cookie for Remember Me functionality.
             if (model.RememberMe)
             {
-                // CookieUtils.SaveUserData(Response, user);
-                Response.Cookies.Append(token, token);
+                CookieUtils.SaveUserData(Response, user);
+                // Response.Cookies.Append(token, token);
             }
             TempData["Email"] = user.Email;
             // if (user.RoleId == 1)
@@ -212,6 +212,13 @@ public class HomeController : Controller
         return View();
     }
 
+    public IActionResult Logout()
+    {
+        Response.Cookies.Delete("SuperSecretAuthToken");
+        Response.Cookies.Delete("UserData");
+        Response.Cookies.Delete("email");
+        return RedirectToAction("Index", "Home");
+    }
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {

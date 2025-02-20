@@ -1,0 +1,246 @@
+@{
+    ViewData["Title"] = "Admin Dashboard";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="~/css/adminDashboard.css">
+
+<div class="container-fluid">
+    <div class="row">
+        @* <nav class="col-xl-2 col-lg-2 col-md-1 col-sm-1 col-2 sidebar">
+            <div class="d-flex flex-column flex-shrink-0 bg-light">
+                <div class="d-list">
+                    <ul class="nav nav-pills flex-column mb-auto p-2 align-items-start">
+                        <li class="active" style="width: 100%;">
+                            <a href="#" class="nav-link link-dark " aria-current="page">
+                                <i class="fa-solid fa-table-list dash" style="color: #0066A7;"></i>
+                                <span class="common" style="color: #0066A7;">Dashboard</span>
+                            </a>
+                        </li>
+                        <li style="width: 100%;">
+                            <a href="./innerpage.html" class="nav-link link-dark" style="color: #C8242F;">
+                                <i class="fa-solid fa-users dash"></i>
+                                <span class="common">Users</span>
+                            </a>
+                        </li>
+                        <li style="width: 100%;">
+                            <a href="#" class="nav-link link-dark">
+                                <i class="fa-solid fa-user-tag dash"></i>
+                                <span class="common">Roles and Permission</span>
+                            </a>
+                        </li>
+                        <li style="width: 100%;">
+                            <a href="#" class="nav-link link-dark">
+                                <i class="fa-solid fa-utensils dash"></i>
+                                <span class="common">Menu</span>
+                            </a>
+                        </li>
+                        <li style="width: 100%;">
+                            <a href="#" class="nav-link link-dark">
+                                <i class="fa-solid fa-users-rectangle dash"></i>
+                                <span class="common">Table and Sections</span>
+
+                            </a>
+                        </li>
+                        <li style="width: 100%;">
+                            <a href="#" class="nav-link link-dark">
+                                <i class="fa-solid fa-clipboard-check dash"></i>
+                                <span class="common">Orders</span>
+
+                            </a>
+                        </li>
+                        <li style="width: 100%;">
+                            <a href="#" class="nav-link link-dark">
+                                <i class="fa-solid fa-users-between-lines dash"></i>
+                                <span class="common">Customers</span>
+
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </nav> *@
+        <div class="ad-body col-xl-10 col-lg-10 col-md-11 col-sm-10 col-10 ">
+            <div class="dashboard-div">
+                <div class="dt p-2">Dashboard</div>
+                <div>
+                    <div class="container-fluid">
+                        <div class="overview row row-cols-xl-4 row-cols-md-2 row-cols-1 gx-3 gy-3 p-3">
+                            <div class="col">
+                                <div class="ov d-block position-relative">
+                                    <div class="d-flex justify-content-end p-2 position-absolute top-0 end-0">
+                                        <i class="fa-solid fa-signal"></i>
+                                    </div>
+                                    <div class="position-absolute start-0 bottom-0 p-2">
+                                        <h5 class="m-0">$1630</h5>
+                                        <p class="m-0">Total Sales</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="ov d-block position-relative">
+                                    <div class="d-flex justify-content-end p-2 position-absolute top-0 end-0">
+                                        <i class="fa-regular fa-clipboard"></i>
+                                    </div>
+                                    <div class="position-absolute start-0 bottom-0 p-2">
+                                        <h5 class="m-0">1</h5>
+                                        <p class="m-0">Total Orders</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="ov d-block position-relative">
+                                    <div class="d-flex justify-content-end p-2 position-absolute top-0 end-0">
+                                        <i class="fa-solid fa-envelope-circle-check"></i>
+                                    </div>
+                                    <div class="position-absolute start-0 bottom-0 p-2">
+                                        <h5 class="m-0">$1630</h5>
+                                        <p class="m-0">Avg. Orders Value</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="ov d-block position-relative">
+                                    <div class="d-flex justify-content-end p-2 position-absolute top-0 end-0">
+                                        <i class="fa-solid fa-signal"></i>
+                                    </div>
+                                    <div class="position-absolute start-0 bottom-0 p-2">
+                                        <h5 class="m-0">6.96 mins</h5>
+                                        <p class="m-0">Avg. Waiting Time</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row d-flex flex-wrap align-items-center justify-content-around mt-3 p-3"
+                        style="background-color: #F2F2F2;">
+                        <div class="col-lg-6 col-12 mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between row">
+                                        <h4 class="col-sm-6">Revenue</h4>
+                                        <div>
+                                            <img src="@Url.Content("~/images/graph1.png")" alt="" class="img-fluid"
+                                                style="max-height: 300px;">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-12 mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4>Customers Growth</h4>
+                                    <img src="@Url.Content("~/images/graph1.png")" alt="" class="img-fluid"
+                                        style="max-height: 300px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container-fluid">
+                        <div class="overview row row-cols-xl-4 row-cols-md-2 row-cols-1 gx-3 gy-3 p-3">
+                            <div class="col">
+                                <div class="last-ov d-block p-3">
+                                    <h4>top Selling Items</h4>
+                                    <hr class="m-1">
+                                    <div class="d-flex align-items-center">
+                                        <span class="p-1">#1 </span>
+                                        <img src="@Url.Content("~/images/dining-menu.png")" alt="" height="40px">
+                                        <div class="d-block p-1">
+                                            <p class="m-0">Grilled Burger</p>
+                                            <div class="d-flex align-items-center">
+                                                <i class="fa-solid fa-caret-up"></i>
+                                                <p class="m-0">1 Order</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr class="m-1">
+                                    <div class="d-flex align-items-center">
+                                        <span class="p-1">#2 </span>
+                                        <img src="@Url.Content("~/images/dining-menu.png")" alt="" height="40px">
+                                        <div class="d-block p-1">
+                                            <p class="m-0">Marghreta</p>
+                                            <div class="d-flex align-items-center">
+                                                <i class="fa-solid fa-caret-up"></i>
+                                                <p class="m-0">1 Order</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="last-ov d-block p-3">
+                                    <h4>Least Selling Items</h4>
+                                    <hr class="m-1">
+                                    <div class="d-flex align-items-center">
+                                        <span class="p-1">#1 </span>
+                                        <img src="@Url.Content("~/images/dining-menu.png")" alt="" height="40px">
+                                        <div class="d-block p-1">
+                                            <p class="m-0">Grilled Burger</p>
+                                            <div class="d-flex align-items-center">
+                                                <i class="fa-solid fa-caret-up"></i>
+                                                <p class="m-0">1 Order</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr class="m-1">
+                                    <div class="d-flex align-items-center">
+                                        <span class="p-1">#2 </span>
+                                        <img src="@Url.Content("~/images/dining-menu.png")" alt="" height="40px">
+                                        <div class="d-block p-1">
+                                            <p class="m-0">Marghreta</p>
+                                            <div class="d-flex align-items-center">
+                                                <i class="fa-solid fa-caret-up"></i>
+                                                <p class="m-0">1 Order</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="last-ov d-block position-relative">
+                                    <div class="d-flex justify-content-end p-2 position-absolute top-0 end-0">
+                                        <i class="fa-solid fa-envelope-circle-check"></i>
+                                    </div>
+                                    <div class="position-absolute start-0 bottom-0 p-2">
+                                        <h5 class="m-0">$1630</h5>
+                                        <p class="m-0">Avg. Orders Value</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="last-ov d-block position-relative">
+                                    <div class="d-flex justify-content-end p-2 position-absolute top-0 end-0">
+                                        <i class="fa-solid fa-signal"></i>
+                                    </div>
+                                    <div class="position-absolute start-0 bottom-0 p-2">
+                                        <h5 class="m-0">6.96 mins</h5>
+                                        <p class="m-0">Avg. Waiting Time</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+@section Scripts {
+    <script>
+        function toggleSidebar() {
+            document.getElementById("sidebar").classList.toggle("active");
+        }
+    </script>
+}

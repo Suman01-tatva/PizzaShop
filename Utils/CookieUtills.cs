@@ -1,5 +1,7 @@
+using Azure.Core;
 using PizzaShop.Models;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace PizzaShop.Utils
 {
@@ -33,7 +35,8 @@ namespace PizzaShop.Utils
         /// <param name="user"></param>
         public static void SaveUserData(HttpResponse response, Account user)
         {
-            string userData = JsonSerializer.Serialize(user);
+            var options = new JsonSerializerOptions { ReferenceHandler = ReferenceHandler.Preserve };
+            string userData = JsonSerializer.Serialize(user, options);
 
             // Store user details in a cookie for 3 days
             var cookieOptions = new CookieOptions
@@ -44,6 +47,22 @@ namespace PizzaShop.Utils
                 IsEssential = true
             };
             response.Cookies.Append("UserData", userData, cookieOptions);
+        }
+
+        public static Account? GetUserData(HttpRequest request)
+        {
+            var options = new JsonSerializerOptions { ReferenceHandler = ReferenceHandler.Preserve };
+
+            // Store user details in a cookie for 3 days
+            var cookieOptions = new CookieOptions
+            {
+                Expires = DateTime.UtcNow.AddDays(3),
+                HttpOnly = true,
+                Secure = true,
+                IsEssential = true
+            };
+            var data = request.Cookies["userData"];
+            return string.IsNullOrEmpty(data) ? null : JsonSerializer.Deserialize<Account>(data, options);
         }
 
         public static void ClearCookies(HttpContext httpContext)

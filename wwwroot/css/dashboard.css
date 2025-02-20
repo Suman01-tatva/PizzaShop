@@ -1,0 +1,150 @@
+body {
+  background-color: #f2f2f2 !important;
+}
+
+.brand-name-nav {
+  color: white;
+}
+
+.brand-name {
+  color: #006098;
+}
+
+.close-btn {
+  margin-left: 10px;
+}
+
+.pizza-logo {
+  height: 50px;
+  width: 60px;
+}
+
+.profile-icon {
+  height: 50px;
+  width: 50px;
+}
+
+.navbar {
+  height: 60px;
+  background-color: #006098;
+}
+
+.sidebar {
+  min-height: fit-content;
+  background-color: #fff;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  /* z-index: 1500; */
+  height: 100vh;
+}
+
+.sidebar ul li img {
+  height: 20px;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+.sidebar ul li:hover {
+  /* background-color: #fcffff; */
+  background-color: white;
+  border-radius: 5px;
+  color: black;
+}
+
+.sidebar ul li {
+  padding: 2px;
+}
+
+.sidebar ul a {
+  color: black;
+}
+
+#toggle-btn {
+  height: 30px;
+  width: 30px;
+}
+
+.dropdown-menu[data-bs-popper] {
+  left: auto;
+}
+@media (max-width: 989px) {
+  .sidebar {
+    /* position: fixed; */
+    transform: translateX(-100%);
+    min-height: fit-content;
+    /* width: 230px; */
+    height: 100vh;
+  }
+
+  .sidebar.show {
+    transform: translateX(0);
+    height: 100vh;
+    z-index: 5000;
+    /* width: 230px; */
+  }
+}
+
+@media (min-width: 989) {
+  .close-btn {
+    display: none;
+  }
+}
+
+@media (max-width: 1024px) {
+  .sidebar {
+    /* position: fixed; */
+    min-height: fit-content;
+    width: 230px;
+    height: 100vh;
+    z-index: 2000;
+    /* margin-top: 60px; */
+  }
+
+  .sidebar.show {
+    height: 100vh;
+    width: 230px;
+  }
+
+  /* .main-content {
+      margin-left: 230px;
+      width: 70%;
+    } */
+}
+
+@media (min-width: 1024px) {
+  .sidebar {
+    position: fixed;
+    min-height: fit-content;
+    width: 230px;
+    height: 100vh;
+    z-index: 2000;
+  }
+
+  /* .sidebar.show {
+      height: 100vh;
+      width: 230px;
+    } */
+
+  /* .content {
+      margin-left: 230px;
+      width: 70%;
+    } */
+  .close-btn {
+    display: none;
+  }
+}
+
+.offcanvas-lg.offcanvas-start {
+  width: 230px;
+}
+
+@media (max-width: 992px) {
+  .main-content {
+    margin-left: 0;
+  }
+}
+@media (min-width: 992px) {
+  .main-content {
+    margin-left: 230px;
+  }
+}

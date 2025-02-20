@@ -1,0 +1,64 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  height: 100vh;
+  font-family: Roboto, sans-serif;
+}
+
+.sidebar {
+  height: 100vh;
+  overflow-x: hidden;
+  padding: 0 !important;
+}
+
+.ad-body {
+  background-color: #f2f2f2 !important;
+}
+
+.dash {
+  height: 15px;
+}
+
+.d-list {
+  background-color: white;
+}
+
+.active {
+  background-color: #f2f2f2;
+}
+
+.common {
+  height: 15px;
+}
+
+.dt {
+  font-weight: 600;
+  font-size: x-large;
+  color: #0066a7;
+}
+
+.ov {
+  height: 120px;
+  background-color: #ffffff;
+  border-radius: 10px;
+}
+
+.last-ov {
+  height: 180px;
+  background-color: #ffffff;
+  border-radius: 10px;
+}
+
+.ov h5 {
+  font-size: x-large;
+  font-weight: 600;
+}
+
+@media screen and (max-width: 992px) {
+  li a span {
+    display: none;
+  }
+}
