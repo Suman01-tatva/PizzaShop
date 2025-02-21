@@ -17,7 +17,7 @@ public partial class User
 
     public string Username { get; set; } = null!;
 
-    public long Phone { get; set; }
+    public long? Phone { get; set; }
 
     public string? ProfileImage { get; set; }
 
@@ -33,7 +33,7 @@ public partial class User
 
     public bool? IsDeleted { get; set; }
 
-    public DateTime CreatedAt { get; set; }
+    public DateTime? CreatedAt { get; set; }
 
     public DateTime? ModifiedAt { get; set; }
 

@@ -21,6 +21,12 @@
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="icon" type="image/x-icon" href="~/images/pizzashop_logo.png" />
+    @* DataTable *@
+    @* <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href=" https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css" /> *@
 </head>
 
 <body>
@@ -35,13 +41,13 @@
                         data-bs-target="#sidebar" aria-controls="offcanvasWithBothOptions"></button>
                 </div>
                 <ul class="nav d-flex justify-content-between align-items-left flex-column mt-4">
-                    <a href="">
+                    <a asp-action="AdminDashboard" asp-controller="Home">
                         <li class="nav-item sidebar-active cursor-pointer">
                             <i class="fa-solid fa-table-cells-large me-2"></i>
                             Dashboard
                         </li>
                     </a>
-                    <a href="./list-user.html">
+                    <a asp-action="UserList" asp-controller="User">
                         <li class="nav-item">
                             <i class="fa-solid fa-users me-2"></i> Users
                         </li>
@@ -109,7 +115,7 @@
                             <li><a class="dropdown-item" asp-action="ChangePassword" asp-controller="User">
                                     <i class="fa-solid fa-rotate-right me-2"></i>Change Password</a>
                             </li>
-                            <li><a class="dropdown-item" href="@Url.Action("Logout", "Home")"><i
+                            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
                                         class="fa fa-sign-out me-2" aria-hidden="true"></i>Logout</a></li>
                         </ul>
                     </div>
@@ -120,6 +126,34 @@
             </div>
         </div>
     </main>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        Delete Confirmation
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="d-flex justify-content-center align-item-center mt-5 mb-3">
+                    <i class="fa-solid fa-triangle-exclamation fa-2xl" style="color: #ffd43b"></i>
+                </div>
+                <div class="modal-body d-flex justify-content-center">
+                    Are You sure you want to Logout ?
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <a href="@Url.Action("Logout", "Home")">
+                        <button type="button" class="fill-btn px-3 py-2 border-0 rounded" data-bs-dismiss="modal">
+                            Yes
+                        </button>
+                    </a>
+                    <button type="button" class="border-btn px-3" data-bs-dismiss="modal">
+                        No
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/login.js"></script>

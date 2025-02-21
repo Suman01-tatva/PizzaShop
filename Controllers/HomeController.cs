@@ -35,6 +35,12 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        var token = Request.Cookies["SuperSecretAuthToken"];
+        var ValidateToken = _jwtService.ValidateToken(token!);
+        if (ValidateToken != null)
+        {
+            return RedirectToAction("AdminDashBoard", "Home");
+        }
         return View();
     }
 
@@ -219,6 +225,7 @@ public class HomeController : Controller
         Response.Cookies.Delete("email");
         return RedirectToAction("Index", "Home");
     }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {

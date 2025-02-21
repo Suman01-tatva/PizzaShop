@@ -5,7 +5,7 @@
 
 @model PizzaShop.ViewModels.ProfileViewModel;
 
-<div class="col-12 pt-5 content-bg p-3">
+<div class="col-12 pt-5 content-bg">
     <!-- Add User header -->
     <div class="row align-items-center d-flex flex-wrap ">
         <h1 class="fs-2  col-md-4 text-primary font-weight-bold">My Profile</h1>
@@ -14,12 +14,13 @@
     <div class="shadow card container-fluid p-3 shadow">
         <form asp-controller="User" asp-action="Profile" class="row needs-validation">
             <div>
-                <div class="">
-
+                <div>
+                    <img class="profile-bg" src="~/images/profile_div_bg.jpg" alt="profile-bg">
                 </div>
                 <div class="row">
                     <div class="col-md-2 d-flex justify-content-center">
-                        <i class="fa fa-user-circle fs-1" aria-hidden="true"></i>
+                        @* <i class="fa fa-user-circle fs-1" aria-hidden="true"></i> *@
+                        <img src="~/images/Default_pfp.svg.png" class="profile-img" alt="profile-img">
                     </div>
                     <div class="col-md-7">
                         <h3>@ViewData["FirstName"] @ViewData["LastName"]</h3>

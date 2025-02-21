@@ -8,9 +8,9 @@
     crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="~/css/adminDashboard.css">
 
-<div class="container-fluid">
-    <div class="row">
-        @* <nav class="col-xl-2 col-lg-2 col-md-1 col-sm-1 col-2 sidebar">
+@* <div class="container-fluid"> *@
+@* <div class="row"> *@
+@* <nav class="col-xl-2 col-lg-2 col-md-1 col-sm-1 col-2 sidebar">
             <div class="d-flex flex-column flex-shrink-0 bg-light">
                 <div class="d-list">
                     <ul class="nav nav-pills flex-column mb-auto p-2 align-items-start">
@@ -64,7 +64,7 @@
 
             </div>
         </nav> *@
-        <div class="ad-body col-xl-10 col-lg-10 col-md-11 col-sm-10 col-10 ">
+@* <div class="ad-body col-xl-10 col-lg-10 col-md-11 col-sm-10 col-10 ">
             <div class="dashboard-div">
                 <div class="dt p-2">Dashboard</div>
                 <div>
@@ -231,10 +231,103 @@
                 </div>
 
             </div>
-        </div>
+        </div> *@
+@* </div> *@
+@* </div> *@
+
+<h2 class="page-title m-3 p-3">Dashboard</h2>
+<div class="col d-flex justify-content-between align-item-center gap-5  m-3 p-3 high">
+    <div class="dashboard-card col-md-3">
+        <div class="icon-container icon-sales"><img src="~/images/icons/total-sales.svg"></img></div>
+        <h3 class="card-value">$1630</h3>
+        <p class="card-title">Total Sales</p>
+    </div>
+    <div class="dashboard-card col-md-3">
+        <div class="icon-container icon-orders"><img src="@Url.Content("~/images/icons/total-orders.svg")"></img></div>
+        <h3 class="card-value">4</h3>
+        <p class="card-title">Total Orders</p>
+    </div>
+    <div class="dashboard-card col-md-3">
+        <div class="icon-container icon-value"><img src="@Url.Content("~/images/icons/order-value.svg")"></img></div>
+        <h3 class="card-value">630</h3>
+        <p class="card-title">Avg. Order Value</p>
+    </div>
+    <div class="dashboard-card col-md-3">
+        <div class="icon-container icon-waiting"><img src="@Url.Content("~/images/icons/waiting-time.svg")"></img></div>
+        <h3 class="card-value">6.96 mins</h3>
+        <p class="card-title">Avg. Waiting Time</p>
     </div>
 </div>
+
+<div class="dashboard-container p-3 m-3">
+    <div class="dashboard-card">
+        <h4 class="card-heading">Revenue</h4>
+        <img src="@Url.Content("~/images/graph1.png")" alt="Revenue Graph" class="img-fluid revenue-graph">
+    </div>
+    <div class="dashboard-card">
+        <h4 class="card-heading">Customer Growth</h4>
+        <img src="@Url.Content("~/images/graph2.png")" alt="Customer Growth Graph"
+            class="img-fluid customer-growth-graph">
+    </div>
 </div>
+
+<div class="dashboard-container m-3 p-3">
+    <div class="dashboard-card">
+        <h4 class="card-heading">Top Selling Items</h4>
+        <hr>
+        <table class="item-table">
+            <tr>
+                <td>#1</td>
+                <td><img src="~/images/dining-menu.png" alt="Grilled Burger" class="item-img"></td>
+                <td>
+                    <p class="item-name">Grilled Burger</p>
+                    <span class="order-count"><i class="fa-solid fa-caret-up"></i> 1 Order</span>
+                </td>
+            </tr>
+            <tr>
+                <td>#2</td>
+                <td><img src="@Url.Content("~/images/dining-menu.png")" alt="Margherita" class="item-img"></td>
+                <td>
+                    <p class="item-name">Margherita</p>
+                    <span class="order-count"><i class="fa-solid fa-caret-up"></i> 1 Order</span>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="dashboard-card">
+        <h4 class="card-heading">Least Selling Items</h4>
+        <hr>
+        <table class="item-table">
+            <tr>
+                <td>#1</td>
+                <td><img src="@Url.Content("~/images/dining-menu.png")" alt="Grilled Burger" class="item-img"></td>
+                <td>
+                    <p class="item-name">Grilled Burger</p>
+                    <span class="order-count"><i class="fa-solid fa-caret-down"></i>1 Order</span>
+                </td>
+            </tr>
+            <tr>
+                <td>#2</td>
+                <td><img src="@Url.Content("~/images/dining-menu.png")" alt="Margherita" class="item-img"></td>
+                <td>
+                    <p class="item-name">Margherita</p>
+                    <span class="order-count"><i class="fa-solid fa-caret-down"></i> 1 Order</span>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="dashboard-card">
+        <div class="icon-container icon-waiting-list"><img src="@Url.Content("~/images/icons/waiting-list.svg")"></img>
+        </div>
+        <h3 class="card-value">12</h3>
+        <p class="card-title">Waiting List Count</p>
+    </div>
+    <div class="dashboard-card">
+        <div class="icon-container icon-customer"><img src="@Url.Content("~/images/icons/customer.svg")"></img></div>
+        <h3 class="card-value">5</h3>
+        <p class="card-title">New Customers</p>
+    </div>
 </div>
 
 @section Scripts {

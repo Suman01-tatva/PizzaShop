@@ -1,4 +1,6 @@
 using System.Diagnostics;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -15,6 +17,7 @@ public class UserController : Controller
     {
         _context = context;
     }
+
     [HttpGet]
     public async Task<IActionResult> Profile()
     {
@@ -34,6 +37,7 @@ public class UserController : Controller
             }
 
             var role = _context.Roles.FirstOrDefault(a => a.Id == account.RoleId).Name;
+            var userList = _context.Users.ToList();
             var user = _context.Users.FirstOrDefault(a => a.Email == account.Email);
             var country = _context.Countries.FirstOrDefault(a => a.Id == user.CountryId);
             var city = _context.Cities.FirstOrDefault(a => a.Id == user.CityId);
@@ -58,7 +62,7 @@ public class UserController : Controller
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 UserName = user.Username,
-                // Phone = user.Phone,
+                Phone = (long)user.Phone,
                 Country = country.Id.ToString(),
                 State = state.Id.ToString(),
                 City = city.Id.ToString(),
@@ -85,9 +89,9 @@ public class UserController : Controller
             user.LastName = model.LastName;
             user.Username = model.UserName;
             user.Phone = model.Phone;
-            user.City.Name = model.City;
-            user.State.Name = model.State;
-            user.Country.Name = model.Country;
+            user.CityId = int.Parse(model.City);
+            user.StateId = int.Parse(model.State);
+            user.CountryId = int.Parse(model.Country);
             user.Address = model.Address;
             user.Zipcode = model.ZipCode;
             await _context.SaveChangesAsync();
@@ -113,7 +117,26 @@ public class UserController : Controller
     }
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 
+    [HttpGet]
+    public IActionResult UserList()
+    {
+        // var userEmailClaim = User.FindFirst(ClaimTypes.Email);
+        // if (userEmailClaim == null)
+        // {
+        //     return Unauthorized("Email not found in token");
+        // }
 
+        // string userEmail = userEmailClaim.Value;
+        var userList = _context.Users.ToList();
+        if (userList == null)
+        {
+            ViewBag["ErrorMessage"] = "UserList is Empty";
+            return View();
+        }
+
+        ViewBag.UserList = userList;
+        return View();
+    }
     public IActionResult ChangePassword()
     {
         return View();
