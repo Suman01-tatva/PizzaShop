@@ -2,6 +2,8 @@ using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using PizzaShop.Models;
@@ -73,6 +75,24 @@ public class UserController : Controller
         }
     }
 
+    [HttpGet]
+    public async Task<IActionResult> GetStates(int countryId)
+    {
+        var states = await _context.States
+            .Where(s => s.CountryId == countryId)
+            .ToListAsync();
+        return Json(states);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetCities(int stateId)
+    {
+        var cities = await _context.Cities
+            .Where(c => c.StateId == stateId)
+            .ToListAsync();
+        return Json(cities);
+    }
+
     [HttpPost]
     public async Task<IActionResult> Profile(ProfileViewModel model)
     {
@@ -100,9 +120,13 @@ public class UserController : Controller
             var AllCities = _context.Cities.Where(c => c.StateId == user.StateId).ToList();
             var role = _context.Roles.FirstOrDefault(a => a.Id == user.RoleId).Name;
 
-            ViewBag.AllCountries = AllCountries;
-            ViewBag.AllCities = AllCities;
-            ViewBag.AllStates = AllStates;
+            ViewBag.AllCountries = new SelectList(await _context.Countries.ToListAsync(), "Id", "Name", user.CountryId);
+            ViewBag.AllCities = new SelectList(await _context.States.Where(s => s.CountryId == user.CountryId).ToListAsync(), "Id", "Name", user.StateId);
+            ViewBag.AllStates = new SelectList(await _context.Cities.Where(ct => ct.StateId == user.StateId).ToListAsync(), "Id", "Name", user.CityId);
+
+            // ViewBag.AllCountries = AllCountries;
+            // ViewBag.AllCities = AllCities;
+            // ViewBag.AllStates = AllStates;
             ViewData["ProfileSuccessMessage"] = "Profile Updated SucessFully";
             ViewData["role"] = role;
             ViewData["email"] = email;
@@ -118,16 +142,54 @@ public class UserController : Controller
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 
     [HttpGet]
-    public IActionResult UserList()
+    public IActionResult UserList(string searchString, int pageIndex = 1, int pageSize = 5, string sortOrder = "")
     {
-        // var userEmailClaim = User.FindFirst(ClaimTypes.Email);
-        // if (userEmailClaim == null)
-        // {
-        //     return Unauthorized("Email not found in token");
-        // }
+        var userQuery = _context.Users.Where(u => u.IsDeleted == false);
 
-        // string userEmail = userEmailClaim.Value;
-        var userList = _context.Users.ToList();
+        ViewData["UsernameSortParam"] = sortOrder == "username_asc" ? "username_desc" : "username_asc";
+        ViewData["RoleSortParam"] = sortOrder == "role_asc" ? "role_desc" : "role_asc";
+
+        switch (sortOrder)
+        {
+            case "username_asc":
+                userQuery = userQuery.OrderBy(u => u.FirstName);
+                break;
+
+            case "username_desc":
+                userQuery = userQuery.OrderByDescending(u => u.FirstName);
+                break;
+
+            case "role_asc":
+                userQuery = userQuery.OrderBy(u => u.Role.Name);
+                break;
+
+            case "role_desc":
+                userQuery = userQuery.OrderByDescending(u => u.Role.Name);
+                break;
+
+            default:
+                userQuery = userQuery.OrderBy(u => u.Id);
+                break;
+
+        }
+
+        if (!string.IsNullOrEmpty(searchString))
+        {
+            userQuery = userQuery.Where(u => u.FirstName.ToLower().Contains(searchString.ToLower()) || u.LastName.Contains(searchString));
+        }
+
+        var userList = userQuery
+        .Skip((pageIndex - 1) * pageSize)
+        .Take(pageSize)
+        .ToList();
+
+        var count = _context.Users.Count();
+        ViewBag.count = count;
+        ViewBag.pageIndex = pageIndex;
+        ViewBag.pageSize = pageSize;
+        ViewBag.totalPage = (int)Math.Ceiling(count / (double)pageSize);
+        ViewBag.searchString = searchString;
+
         if (userList == null)
         {
             ViewBag["ErrorMessage"] = "UserList is Empty";

@@ -33,59 +33,61 @@
     <main class="container-fluid">
         <div class="row">
             @* sidebar *@
-            <div class="offcanvas-lg offcanvas-start col-md-3 bg-light col-lg-2 sidebar" id="sidebar">
-                <div class="d-flex flex-row justify-content-center align-item-center mt-2 fs-3">
-                    <img src="~/images/pizzashop_logo.png" alt="pizashop-logo" class="img-fliud pizza-logo" />
-                    <div class="brand-name fs-5 mt-2"><b>PIZZASHOP</b></div>
-                    <button class="btn btn-close close-btn" type="button" data-bs-toggle="offcanvas"
-                        data-bs-target="#sidebar" aria-controls="offcanvasWithBothOptions"></button>
+            <div class="col-md-3 col-lg-2 bg-light sidebar" id="sidebar">
+                <div class="offcanvas-lg offcanvas-start">
+                    <div class="d-flex flex-row justify-content-center align-item-center mt-2 fs-3">
+                        <img src="~/images/pizzashop_logo.png" alt="pizashop-logo" class="img-fliud pizza-logo" />
+                        <div class="brand-name fs-5 mt-2"><b>PIZZASHOP</b></div>
+                        <button class="btn btn-close close-btn" type="button" data-bs-toggle="offcanvas"
+                            data-bs-target="#sidebar" aria-controls="offcanvasWithBothOptions"></button>
+                    </div>
+                    <ul class="nav d-flex justify-content-between align-items-left flex-column mt-4">
+                        <a asp-action="AdminDashboard" asp-controller="Home">
+                            <li class="nav-item sidebar-active cursor-pointer">
+                                <i class="fa-solid fa-table-cells-large me-2"></i>
+                                Dashboard
+                            </li>
+                        </a>
+                        <a asp-action="UserList" asp-controller="User">
+                            <li class="nav-item">
+                                <i class="fa-solid fa-users me-2"></i> Users
+                            </li>
+                        </a>
+                        <a href="./permissions.html">
+                            <li class="nav-item">
+                                <i class="fa-solid fa-monument me-2"></i>Role and Permission
+                            </li>
+                        </a>
+                        <a href="./permissions.html">
+                            <li class="nav-item">
+                                <i class="fa-solid fa-square me-2"></i>Menu
+                            </li>
+                        </a>
+                        <a href="">
+                            <li class="nav-item">
+                                <i class="fa-solid fa-money-check-dollar me-2"></i> Table and
+                                Section
+                            </li>
+                        </a>
+                        <a href="">
+                            <li class="nav-item">
+                                <i class="fa-solid fa-cart-plus me-2"></i> Taxes And Fees
+                            </li>
+                        </a>
+                        <a href="">
+                            <li class="nav-item">
+                                <i class="fa-solid fa-users-rectangle me-2"></i> Orders
+                            </li>
+                        </a>
+                        <a href="">
+                            <li class="nav-item">
+                                <i class="fa-solid fa-users-rectangle me-2"></i> Customers
+                            </li>
+                        </a>
+                    </ul>
                 </div>
-                <ul class="nav d-flex justify-content-between align-items-left flex-column mt-4">
-                    <a asp-action="AdminDashboard" asp-controller="Home">
-                        <li class="nav-item sidebar-active cursor-pointer">
-                            <i class="fa-solid fa-table-cells-large me-2"></i>
-                            Dashboard
-                        </li>
-                    </a>
-                    <a asp-action="UserList" asp-controller="User">
-                        <li class="nav-item">
-                            <i class="fa-solid fa-users me-2"></i> Users
-                        </li>
-                    </a>
-                    <a href="./permissions.html">
-                        <li class="nav-item">
-                            <i class="fa-solid fa-monument me-2"></i>Role and Permission
-                        </li>
-                    </a>
-                    <a href="./permissions.html">
-                        <li class="nav-item">
-                            <i class="fa-solid fa-square me-2"></i>Menu
-                        </li>
-                    </a>
-                    <a href="">
-                        <li class="nav-item">
-                            <i class="fa-solid fa-money-check-dollar me-2"></i> Table and
-                            Section
-                        </li>
-                    </a>
-                    <a href="">
-                        <li class="nav-item">
-                            <i class="fa-solid fa-cart-plus me-2"></i> Taxes And Fees
-                        </li>
-                    </a>
-                    <a href="">
-                        <li class="nav-item">
-                            <i class="fa-solid fa-users-rectangle me-2"></i> Orders
-                        </li>
-                    </a>
-                    <a href="">
-                        <li class="nav-item">
-                            <i class="fa-solid fa-users-rectangle me-2"></i> Customers
-                        </li>
-                    </a>
-                </ul>
             </div>
-            <div class="main-content col-md-9 col-lg-10 mx-3 mt-5">
+            <div class="col-9 col-md-9 mt-5 main-content">
                 @* navbar *@
                 <nav class="navbar navbar-expand-lg d-flex justify-content-between align-item-center fixed-top py-0">
                     <div class="d-flex my-0">
@@ -126,6 +128,7 @@
             </div>
         </div>
     </main>
+    @* Delete model *@
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">

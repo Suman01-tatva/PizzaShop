@@ -19,8 +19,11 @@
                 </div>
                 <div class="row">
                     <div class="col-md-2 d-flex justify-content-center">
-                        @* <i class="fa fa-user-circle fs-1" aria-hidden="true"></i> *@
                         <img src="~/images/Default_pfp.svg.png" class="profile-img" alt="profile-img">
+                        <input type="file" id="imageInput" accept="image/*" style="display: none;">
+                        <button id="changeImageButton"
+                            class="position-absolute bg-white camera-position z-3 rounded-circle border z-2 shadow-sm">
+                            <i class="fa fa-camera p-2 " for="imageInput" aria-hidden="true"></i></button>
                     </div>
                     <div class="col-md-7">
                         <h3>@ViewData["FirstName"] @ViewData["LastName"]</h3>
@@ -72,9 +75,24 @@
                 </div>
                 <div>
                     <div class="row">
+                        @* <div class="form-floating col">
+                            <select id="CountryId" name="CountryId" class="form-control"
+                                asp-items="ViewBag.Countries"></select>
+                            <label for="CountryId" class="float">Country</label>
+                        </div>
+                        <div class="form-floating col">
+                            <select id="StateId" name="StateId" class="form-control"
+                                asp-items="ViewBag.States"></select>
+                            <label for="StateId" class="float">State</label>
+                        </div>
+                        <div class="form-floating col">
+                            <select id="CityId" name="CityId" class="form-control" asp-items="ViewBag.Cities"></select>
+                            <label for="CityId" class="float">City</label>
+                        </div> *@
+
                         <div class="col-md-4 mb-3">
                             <div class="form-floating">
-                                <select class="form-select" asp-for="Country" id="select-country"
+                                <select id="CountryId" class="form-select" asp-for="Country" id="select-country"
                                     aria-label="Select Country">
                                     @foreach (var country in ViewBag.AllCountries)
                                     {
@@ -89,7 +107,8 @@
                         </div>
                         <div class="col-md-4 mb-3">
                             <div class="form-floating">
-                                <select asp-for="State" class="form-select" id="select-state" aria-label="Select State">
+                                <select id="StateId" asp-for="State" class="form-select" id="select-state"
+                                    aria-label="Select State">
                                     @foreach (var state in ViewBag.AllStates)
                                     {
                                         <option value="@state.Id">
@@ -103,7 +122,8 @@
                         </div>
                         <div class="col-md-4 mb-3">
                             <div class="form-floating">
-                                <select asp-for="City" class="form-select" id="select-city" aria-label="Select City">
+                                <select id="CityId" asp-for="City" class="form-select" id="select-city"
+                                    aria-label="Select City">
 
                                     @foreach (var city in ViewBag.AllCities)
                                     {
@@ -149,7 +169,40 @@
         </form>
     </div>
 </div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#CountryId').change(function () {
+                var countryId = $(this).val();
+                $.getJSON('@Url.Action("GetStates", "Home")', { countryId: countryId }, function (data) {
+                    var stateSelect = $('#StateId');
+                    stateSelect.empty();
+                    $.each(data, function (index, state) {
+                        stateSelect.append($('<option>', {
+                            value: state.id,
+                            text: state.name
+                        }));
+                    });
+                    stateSelect.val(data[0]?.id).change();
+                });
+            });
 
-<script>
+            $('#StateId').change(function () {
+                var stateId = $(this).val();
+                $.getJSON('@Url.Action("GetCities", "Home")', { stateId: stateId }, function (data) {
+                    var citySelect = $('#CityId');
+                    citySelect.empty();
+                    $.each(data, function (index, city) {
+                        citySelect.append($('<option>', {
+                            value: city.id,
+                            text: city.name
+                        }));
+                    });
+                    citySelect.val(data[0]?.id);
+                });
+            });
 
-</script>
+            $('#CountryId').change();
+        });
+    </script>
+}
