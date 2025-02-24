@@ -1,0 +1,51 @@
+.heading {
+  color: #006098;
+}
+
+.table thead tr th {
+  color: gray;
+}
+
+.back-btn {
+  border: 5px #006098;
+}
+
+.login-icon {
+  height: 25px;
+  width: 25px;
+  background: transparent;
+  margin-left: -34px;
+  margin-top: 5px;
+}
+
+.create-btn {
+  background-color: #006098;
+  color: white;
+  padding: 2px;
+}
+
+.border-btn {
+  border: 2px solid #006098;
+  background-color: white;
+  color: #006098;
+  border-radius: 6px;
+  padding: 7px;
+}
+
+.border-btn:hover {
+  border: 2px solid #006098;
+  background-color: #006098;
+  color: white;
+}
+
+.input-file::-webkit-file-upload-button {
+  display: none;
+}
+
+.upload-container {
+  border: 2px gray dotted;
+  display: flex;
+  border-radius: 10px;
+  padding: 20px;
+  justify-content: center;
+}

@@ -6,6 +6,10 @@ namespace PizzaShop.Models;
 
 public partial class PizzashopContext : DbContext
 {
+    public PizzashopContext()
+    {
+    }
+
     public PizzashopContext(DbContextOptions<PizzashopContext> options)
         : base(options)
     {
@@ -64,6 +68,10 @@ public partial class PizzashopContext : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     public virtual DbSet<WaitingToken> WaitingTokens { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseNpgsql("Host=localhost; Database=pizzashop;Username=postgres; password=Tatva@123");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -974,7 +982,12 @@ public partial class PizzashopContext : DbContext
                 .HasColumnName("last_name");
             entity.Property(e => e.ModifiedAt).HasColumnName("modified_at");
             entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
-            entity.Property(e => e.Phone).HasColumnName("phone");
+            entity.Property(e => e.Password)
+                .HasColumnType("character varying")
+                .HasColumnName("password");
+            entity.Property(e => e.Phone)
+                .HasColumnType("character varying")
+                .HasColumnName("phone");
             entity.Property(e => e.ProfileImage)
                 .HasColumnType("character varying")
                 .HasColumnName("profile_image");

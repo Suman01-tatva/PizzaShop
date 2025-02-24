@@ -83,6 +83,10 @@ body {
     z-index: 5000;
     /* width: 230px; */
   }
+
+  .main-content {
+    width: 100%;
+  }
 }
 
 @media (min-width: 989px) {

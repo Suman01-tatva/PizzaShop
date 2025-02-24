@@ -2,11 +2,11 @@ const togglePassword = (input, icon) => {
   if (input.type === "password") {
     input.type = "text";
     icon.textContent = "";
-    icon.src = "images/eye-open.png";
+    icon.src = "~/images/eye-open.png";
   } else {
     input.type = "password";
     icon.textContent = "";
-    icon.src = "images/eye-close.png";
+    icon.src = "~/images/eye-close.png";
   }
 };
 

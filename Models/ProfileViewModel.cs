@@ -14,7 +14,7 @@ public class ProfileViewModel
     public string UserName { get; set; } = null!;
 
     [Required(ErrorMessage = "Phone is required")]
-    public long Phone { get; set; }
+    public string? Phone { get; set; }
 
     [Required(ErrorMessage = "Country is required")]
     public string Country { get; set; } = null!;

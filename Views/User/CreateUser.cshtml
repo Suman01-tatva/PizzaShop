@@ -1,0 +1,156 @@
+@model User;
+@{
+    ViewData["Title"] = "UserList";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<div class="d-flex align-items-center justify-content-between">
+    <h2 class="heading">Add New User</h2>
+    <div class="d-flex gap-3 border">
+        <a asp-action="UserList" asp-controller="User">
+            <button class="p-2 border-btn shadow">
+                <i class="fa-solid fa-chevron-left"></i>
+                Back
+            </button>
+        </a>
+    </div>
+</div>
+<div class="border-dark bg-light rounded p-3 shadow mt-2">
+    <form class="row">
+        <div class="form-floating mb-3 col-md-6">
+            <input asp-for="FirstName" class="form-control px-2" id="floatingInput" placeholder="First Name" />
+            <label for="floatingInput" class="mx-3">First Name</label>
+        </div>
+        <div class="form-floating mb-3 col-md-6">
+            <input asp-for="LastName" class="form-control px-2" id="floatingInput" placeholder="Last Name" />
+            <label for="floatingInput" class="mx-3">Last Name</label>
+        </div>
+
+        <div class="form-floating mb-3 col-md-6">
+            <input asp-for="Username" class="form-control px-2" id="floatingInput" placeholder="User Name"
+                type="text" />
+            <label for="floatingInput" class="mx-3">User Name</label>
+        </div>
+        <div class="form-floating mb-3 col-md-6">
+            <select asp-for="RoleId" class="form-select" id="floatingSelect" aria-label="Role">
+                <option value="1">Admin</option>
+                <option value="2">Account Manager</option>
+                <option value="3">Chef</option>
+            </select>
+            <label for="floatingSelect" class="mx-2">Role</label>
+        </div>
+
+        <div class="form-floating mb-3 col-md-6">
+            <input asp-for="Email" class="form-control px-2" id="floatingInput" placeholder="password" type="email" />
+            <label for="floatingInput" class="mx-3">Email</label>
+        </div>
+        <div class="mb-3 d-flex mb-3 col-md-6">
+            <input asp-for="Password" type="password" class="form-control input-psw" id="InputPassword"
+                placeholder="Password*" required title="Please enter valid password" is-valid />
+            <span>
+                <img src="~/images/eye-close.png" alt="user-icon" class="login-icon mt-3"
+                    onclick="togglePassword(InputPassword,this)" />
+            </span>
+        </div>
+        <!-- File Upload -->
+        <div class="mb-3 upload-container d-flex flex-col">
+            <label for="files" class="mx-1">
+                <img src="~/images/cloud-upload.svg" alt="upload-icon" class="mx-4" />
+                <br />
+                Browse File
+            </label>
+            <input asp-for="ProfileImage" id="files" type="file" class="input-file" hidden />
+        </div>
+
+        <!-- 3 dropdown -->
+        <div class="row d-flex flex-wrap mx-0 p-0">
+            <div class="form-floating mb-3 col-md-4">
+                <select asp-for="Country" class="form-select" id="country" aria-label="Role">
+                </select>
+                <label for="country" class="mx-2">Country</label>
+            </div>
+            <div class="form-floating mb-3 col-md-4">
+                <select asp-for="State" class="form-select" id="state" aria-label="Role">
+                </select>
+                <label for="state" class="mx-2">State</label>
+            </div>
+            <div class="form-floating mb-3 col-md-4">
+                <select asp-for="City" class="form-select" id="city" aria-label="Role">
+                </select>
+                <label for="city" class="mx-2">City</label>
+            </div>
+        </div>
+        <div class="row d-flex flex-wrap mx-0 p-0">
+            <div class="form-floating mb-3 col-md-4">
+                <input asp-for="Zipcode" class="form-control px-2" id="floatingInput" placeholder="Zipcode" />
+                <label for="floatingInput" class="mx-3">Zipcode</label>
+            </div>
+            <div class="form-floating mb-3 col-md-4">
+                <input asp-for="Address" class="form-control px-2" id="floatingInput" placeholder="Address"
+                    type="text" />
+                <label for="floatingInput" class="mx-3">Address</label>
+            </div>
+            <div class="form-floating mb-3 col">
+                <input asp-for="Phone" class="form-control px-2 bordere-dashed" id="floatingInput"
+                    placeholder="Phone" />
+                <label for="floatingInput" class="mx-3">Phone</label>
+            </div>
+        </div>
+        <div>
+            <button type="submit" class="border-0 p-2 create-btn rounded shadow">
+                Create User
+            </button>
+            <button class="border-btn">Cancel</button>
+        </div>
+    </form>
+</div>
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.getJSON('@Url.Action("GetCountries", "Location")', function (countries) {
+                $.each(countries, function (i, country) {
+                    console.log(countries);
+                    $('#country').append($('<option>', {
+                        value: country.id,
+                        text: country.name
+                    }));
+                });
+            });
+
+            $('#country').change(function () {
+                var countryId = $(this).val();
+                $('#state').empty().append('<option selected disabled hidden>Select State</option>');
+                $('#city').empty().append('<option selected disabled hidden>Select City</option>');
+                if (countryId) {
+                    $.getJSON('@Url.Action("GetStates", "Location")', { countryId: countryId }, function (states) {
+                        $.each(states, function (i, state) {
+                            $('#state').append($('<option>', {
+                                value: state.id,
+                                text: state.name
+                            }));
+                        });
+                    });
+                }
+            });
+
+            $('#state').change(function () {
+                var stateId = $(this).val();
+                $('#city').empty().append('<option value="">Select City</option>');
+                if (stateId) {
+                    $.getJSON('@Url.Action("GetCities", "Location")', { stateId: stateId }, function (cities) {
+                        $.each(cities, function (i, city) {
+                            $('#city').append($('<option>', {
+                                value: city.id,
+                                text: city.name
+                            }));
+                        });
+                    });
+                }
+            });
+        });
+
+        if (@ViewBag.UserExistError != "") {
+            alert(@ViewBag.UserExistError);
+        }
+    </script>
+}

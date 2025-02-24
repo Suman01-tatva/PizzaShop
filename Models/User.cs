@@ -17,7 +17,7 @@ public partial class User
 
     public string Username { get; set; } = null!;
 
-    public long? Phone { get; set; }
+    public string? Phone { get; set; }
 
     public string? ProfileImage { get; set; }
 
@@ -42,6 +42,8 @@ public partial class User
     public int? ModifiedBy { get; set; }
 
     public bool? IsActive { get; set; }
+
+    public string? Password { get; set; }
 
     public virtual ICollection<Account> AccountCreatedByNavigations { get; set; } = new List<Account>();
 

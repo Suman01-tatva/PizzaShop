@@ -64,7 +64,7 @@ public class UserController : Controller
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 UserName = user.Username,
-                Phone = (long)user.Phone,
+                Phone = user.Phone,
                 Country = country.Id.ToString(),
                 State = state.Id.ToString(),
                 City = city.Id.ToString(),
@@ -231,4 +231,60 @@ public class UserController : Controller
         }
         return View();
     }
+
+    public IActionResult CreateUser()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateUser(User model)
+    {
+        if (ModelState.IsValid)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
+            if (user != null)
+            {
+                ViewBag.UserExistError = "User Already Exist";
+                return View();
+            }
+
+            user = new User
+            {
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Email = model.Email,
+                Username = model.Username,
+                Phone = model.Phone,
+                RoleId = model.RoleId,
+                ProfileImage = model.ProfileImage,
+                Zipcode = model.Zipcode,
+                Address = model.Address,
+                CountryId = model.CountryId,
+                StateId = model.StateId,
+                CityId = model.CityId,
+                CreatedBy = user.Id,
+            };
+
+            _context.Users.Add(user);
+            var rowsAffected = await _context.SaveChangesAsync();
+            if (rowsAffected > 0)
+            {
+                Console.WriteLine("User created successfully.");
+                TempData["SuccessMessage"] = "Profile created successfully.";
+                return RedirectToAction(nameof(UserList));
+            }
+            else
+            {
+                Console.WriteLine("No changes detected.");
+                TempData["ErrorMessage"] = "No changes were made.";
+            }
+            return View();
+        }
+        else
+        {
+            return View();
+        }
+    }
+
 }
