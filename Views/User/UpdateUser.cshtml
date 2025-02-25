@@ -1,15 +1,14 @@
 @model pizzashop.Models.UserViewModel
 
 @{
-    ViewData["Title"] = "Create User";
+    ViewData["Title"] = "Edit User";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
-
 }
 
-<h2 class="dt p-2">+ Add User</h2>
+<h2 class="dt p-2">Edit User</h2>
 
 <div class="form rounded bg-light">
-    <form asp-controller="User" asp-action="CreateUser" method="post" enctype="multipart/form-data">
+    <form asp-controller="User" asp-action="UpdateUser" method="post" enctype="multipart/form-data">
         <div class="col-xl-12">
             <div class="row">
                 <div class="form-floating col">
@@ -50,14 +49,17 @@
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
                 <div class="form-floating col">
-                    <input type="password" class="form-control twoc" id="password" asp-for="Password">
-                    <label for="password" class="float">Password</label>
-                    <span asp-validation-for="Password" class="text-danger"></span>
+                    <select id="Status" name="Status" class="form-control" asp-for="IsActive">
+                        <option value="true">Active</option>
+                        <option value="false">Inactive</option>
+                    </select>
+                    <label for="Status" class="float">Status</label>
                 </div>
             </div>
         </div>
 
         <br>
+        <!-- File Upload -->
         <div class="mb-3 upload-container d-flex flex-col">
             <label for="files" class="mx-1">
                 <img src="~/images/cloud-upload.svg" alt="upload-icon" class="mx-4" />
@@ -76,11 +78,11 @@
                     <label for="CountryId" class="float">Country</label>
                 </div>
                 <div class="form-floating col">
-                    <select id="StateId" name="StateId" class="form-control"></select>
+                    <select id="StateId" name="StateId" class="form-control" asp-items="ViewBag.States"></select>
                     <label for="StateId" class="float">State</label>
                 </div>
                 <div class="form-floating col">
-                    <select id="CityId" name="CityId" class="form-control"></select>
+                    <select id="CityId" name="CityId" class="form-control" asp-items="ViewBag.Cities"></select>
                     <label for="CityId" class="float">City</label>
                 </div>
             </div>
@@ -108,8 +110,8 @@
         <br>
 
         <div class="form-group p-3 d-flex justify-content-end">
-            <button type="submit" class="btn btn-primary m-1 rounded">Save</button>
-            <button asp-action="UserList" asp-controller="User" class="btn btn-secondary m-1">Cancel</button>
+            <button type="submit" class="btn btn-primary m-1 rounded">Update User</button>
+            <button asp-controller="User" asp-action="UserList" class="btn btn-outline-primary m-1">Cancel</button>
         </div>
     </form>
 </div>

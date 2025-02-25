@@ -261,3 +261,9 @@
   background-color: #006098;
   color: white;
 }
+
+a i {
+  text-decoration: none;
+  color: black;
+  background-color: transparent;
+}

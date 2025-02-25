@@ -49,3 +49,47 @@
   padding: 20px;
   justify-content: center;
 }
+
+/* new */
+.form {
+  min-height: 100px;
+  overflow: hidden;
+  background-color: #f8f9fb;
+  padding: 28px;
+  box-shadow: -2px 4px 11px 4px #dadada;
+  margin: 28px;
+}
+.btn-primary {
+  background: #006ab0 0% 0% no-repeat padding-box;
+  border: none;
+  border-radius: 0px;
+}
+.float {
+  margin-left: 10px;
+}
+
+.user-container {
+  position: absolute;
+  transform: translateX(-50%);
+  left: 15%;
+  top: 60%;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.twoc {
+  height: 58px;
+}
+
+.disab {
+  border: 1px dashed #adadad;
+  background-color: white;
+}
+
+.alert {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 5px;
+}
